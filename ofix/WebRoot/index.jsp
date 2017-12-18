@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ page language="java" import="java.io.*,java.util.*" pageEncoding="utf-8"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -72,5 +72,48 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <jsp:setProperty name="one" property="message" value="菜鸟教程"/>
       <p>输出信息。。。。</p>
       <jsp:getProperty name="one" property="message"/>
+      
+      <jsp:element name="xmlElement">
+      <jsp:attribute name="xmlElementAttr">
+        XML属性值
+      </jsp:attribute>
+      <jsp:body>
+      xml 元素的主体
+      </jsp:body>
+      </jsp:element>
+      
+      <%
+        Enumeration headerNames = request.getHeaderNames();
+        out.println("<table>");
+   		while(headerNames.hasMoreElements()){
+   		   String paramName = (String)headerNames.nextElement();
+   		   out.print("<tr><td>"+paramName+"</td>");
+   		   String paramValue = request.getHeader(paramName);
+   		   out.println("<td>"+paramValue+"</td></tr>");
+   		}     
+   		out.println("</table>");
+       %>
+      
+         <%-- response.setIntHeader("Refresh",5); --%>
+         <%
+         Calendar calendar = new GregorianCalendar();
+         String am_pm;
+         int hour = calendar.get(Calendar.HOUR);
+         int minute = calendar.get(Calendar.MINUTE);
+         int second = calendar.get(Calendar.SECOND);
+         if(calendar.get(Calendar.AM_PM) == 0){
+           am_pm = "AM";
+         }else{
+           am_pm = "PM";
+         }
+         String CT = hour+":"+minute+":"+second+" "+am_pm;
+         out.println("当前时间是:"+CT);
+        %>
+        <% String name = new String(request.getParameter("name").getBytes("ISO-8859-1"),"utf-8")+"<br/>"; %>
+        <%= name %>
+        <%= request.getParameter("url")+"<br/>" %>
+        <%--
+          response.sendError(404,"Need authentication.");
+         --%>
   </body>
 </html>
